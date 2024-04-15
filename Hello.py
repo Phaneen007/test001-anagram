@@ -12,40 +12,48 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# my_app.py
 import streamlit as st
-from streamlit.logger import get_logger
+import pandas as pd
 
-LOGGER = get_logger(__name__)
+st.title("Phanee's Ride App\n Hello Guys")
+data = {
+    'Miles': ['0-4 miles', '5-9 miles', '10-20 miles', 'More than 20 miles!'],
+    'Price': ['1$/mile', '85¢/mile', '80¢/mile', 'To be negotiated'],
+}
 
+st.write("Check out these offers:")
+df = pd.DataFrame(data)
+st.table(df)
 
-def run():
-    st.set_page_config(
-        page_title="Hello",
-        page_icon="👋",
-    )
+whatsapp_location_link = "https://maps.app.goo.gl/oVkHUtHeYceGWuRG6"
 
-    st.write("# Welcome to Streamlit! 👋")
+# Create a clickable link in Markdown
+st.markdown(f"[See my location]({whatsapp_location_link})")
 
-    st.sidebar.success("Select a demo above.")
-
+if st.button("Click here to chat in whatsapp"):
     st.markdown(
-        """
-        Streamlit is an open-source app framework built specifically for
-        Machine Learning and Data Science projects.
-        **👈 Select a demo from the sidebar** to see some examples
-        of what Streamlit can do!
-        ### Want to learn more?
-        - Check out [streamlit.io](https://streamlit.io)
-        - Jump into our [documentation](https://docs.streamlit.io)
-        - Ask a question in our [community
-          forums](https://discuss.streamlit.io)
-        ### See more complex demos
-        - Use a neural net to [analyze the Udacity Self-driving Car Image
-          Dataset](https://github.com/streamlit/demo-self-driving)
-        - Explore a [New York City rideshare dataset](https://github.com/streamlit/demo-uber-nyc-pickups)
-    """
+        f'https://wa.me/+13162101527',
+        unsafe_allow_html=True
     )
 
+##########################################
+data = {
+    'Time': ['8-9 AM', '9-10 AM', '10-11 AM', '11-11:59 AM', '12-1 PM','12-1 PM', '1-2 PM','2 -3 PM', '4-5 PM', '5-6 PM', '6-7 PM', '7-8 PM', '8-9 PM', '9-10 PM'],
+    'Status': ['Active', 'Active', 'Active', 'Active', 'Active', 'Active', 'Active', 'Active', 'Active', 'Active', 'Active', 'Active', 'Active', 'Active']
+}
 
-if __name__ == "__main__":
-    run()
+# Create a DataFrame from the data
+df = pd.DataFrame(data)
+
+# Create a sidebar to update the status
+st.sidebar.header('Update Status')
+selected_name = st.sidebar.selectbox('Select a Time:', df['Time'])
+new_status = st.sidebar.selectbox('Select Status:', ['Active', 'Inactive','Done'])
+
+# Update the status in the DataFrame
+df.loc[df['Time'] == selected_name, 'Status'] = new_status
+
+# Display the updated table
+st.table(df)
+
